@@ -7,7 +7,7 @@ from blog.models import Gonderi, Yorum
 @admin.register(Gonderi)
 class GonderiAdmin(admin.ModelAdmin):
     list_display = ["baslik", "icerik_kisa", "olusturulma"]
-    fields = ["baslik", "icerik", "olusturulma"]
+    fields = ["baslik", "icerik", "olusturulma",]
     readonly_fields = ["icerik_kisa", "olusturulma"]
     list_filter = ["olusturulma"]
 
@@ -17,13 +17,28 @@ class GonderiAdmin(admin.ModelAdmin):
     icerik_kisa.allow_tags = True
     icerik_kisa.short_description = "İçerik"
 
+def make_published(modeladmin, request, queryset):
+        queryset.update(onay=True)
+        make_published.short_description = "Mark selected comments as published"
 
-@admin.register(Yorum)
 class YorumAdmin(admin.ModelAdmin):
-    list_display = ["gonderi_baslik", "icerik_kisa", "olusturulma"]
-    fields = ["gonderi", "icerik", "olusturulma"]
-    readonly_fields = ["gonderi_baslik", "icerik_kisa", "olusturulma"]
-    list_filter = ["olusturulma"]
+    list_display = ["gonderi_baslik", "icerik_kisa", "olusturulma",'onay','güncelleme']
+    #fields = ["gonderi", "icerik",'onay']
+    #readonly_fields=['güncelleme']
+    #readonly_fields = ["gonderi_baslik", "icerik_kisa", "olusturulma"]
+    #list_filter = ["olusturulma"]
+    actions=[
+        make_published
+    ]
+    readonly_fields = ['güncelleme',]
+    fieldsets = [
+        ('Fieldset', {'fields': ["gonderi", "icerik","onay", "güncelleme"]}),
+    ]
+    
+    
+
+
+
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("gonderi")
@@ -39,3 +54,6 @@ class YorumAdmin(admin.ModelAdmin):
 
     icerik_kisa.allow_tags = True
     icerik_kisa.short_description = "İçerik"
+
+
+admin.site.register(Yorum,YorumAdmin)

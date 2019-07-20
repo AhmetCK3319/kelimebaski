@@ -6,7 +6,7 @@ class Gonderi(models.Model):
     baslik = models.CharField(max_length=32, verbose_name="Başlık")
     icerik = models.TextField(verbose_name="İçerik")
     olusturulma = models.DateTimeField(auto_now_add=True)
-
+    # update=models.DateTimeField(auto_now=True)
     class Meta:
         verbose_name = "post"
         verbose_name_plural = "posts"
@@ -25,6 +25,8 @@ class Yorum(models.Model):
     gonderi = models.ForeignKey(Gonderi, on_delete=models.DO_NOTHING, related_name="yorumlar")
     icerik = models.TextField(max_length=280)
     olusturulma = models.DateTimeField(auto_now_add=True)
+    onay=models.BooleanField(default=False)
+    güncelleme=models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "comment"

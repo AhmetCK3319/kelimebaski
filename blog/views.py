@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.http import HttpResponse
 # Create your views here.
 
 from blog.forms import YorumFormu
@@ -28,3 +28,6 @@ def goruntule(request, gonderi_id):
             request.session["last_comment_date"] = datetime.now().isoformat()
     return render(request, "blog/goruntu.html",
                   {"blog_gonderisi": gonderi, "yorumlar": gonderi.yorumlar.all(), "form": form})
+
+def myview(request):
+    return HttpResponse(2+3)

@@ -39,11 +39,14 @@
 <h1 class="baslik">{{ blog_gonderisi.baslik }}</h1>
 <p class="icerik">{{ blog_gonderisi.icerik }}</p>
 <hr>
-{% for yorum in yorumlar %}
-    <div class="yorum">
-        <p>{{ yorum.icerik }}</p>
-        <small>- {{ yorum.olusturulma }}</small>
-    </div>
+{% for yorum in yorumlar  %}
+{% if yorum.onay %}
+  
+<div class="yorum">
+    <p>{{ yorum.icerik }}</p>
+    <small>- {{ yorum.olusturulma }}</small>
+</div> 
+{% endif %}
 {% endfor %}
 <hr>
 <form method="POST">
